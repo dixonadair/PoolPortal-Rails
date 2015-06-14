@@ -1,0 +1,137 @@
+/* --- DEBUGGER CSS --- */
+
+/** {
+	border: 1px solid red;
+}*/
+
+/* ------------------------- */
+
+.centered-text {
+	text-align: center;
+}
+
+/* ------------------------- */
+
+.school-logo {
+	/*width: 100px;*/
+	/*height: 100px;*/
+}
+
+/* ------------------------- */
+/* ------------------------- */
+/* ------------------------- */
+/* ------------------------- */
+/* ------------------------- */
+/* ------------------------- */
+
+.whole-box {
+	border: 2px solid black;
+	border-radius: 5px;
+}
+
+.explanation {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.send-message {
+	margin-left: 10px;
+}
+
+/* --- C3 Stuff --- */
+
+.chart_time {
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+
+.chart_miles {
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+
+.chart_emissions {
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+
+.chart_gas {
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+
+/* --- MAP --- */
+
+#current_location_map { 
+	margin-top: 25px;
+	width: 100%;
+	height: 560px;
+	border-radius: 5px;
+	border: 2px solid black;
+}
+
+/* --- Pool Option Partial --- */
+
+.whole-box {
+	margin-top: 25px;
+	width: 100%;
+	height: 560px;
+}
+
+.pic-and-info {
+	height: 20%;
+	width: 100%;
+}
+
+/*.pic-div {
+	width: 25%;
+	float: left;
+}
+
+.pic {
+	width: 25px;
+	height: 25px;
+}*/
+
+.family-info {
+	height: 100%;
+	margin-left: 10px;
+	float: left;
+}
+
+.pool-info {
+	height: 60%;
+	width: 100%;
+}
+
+.first-row {
+	width: 100%;
+	height: 50%;
+}
+
+.second-row {
+	width: 100%;
+	height: 50%;
+}
+
+.no_carpool {
+	height: 100%;
+	width: 50%;
+	float: left;
+}
+
+.if_carpool {
+	height: 100%;
+	width: 50%;
+	float: right;
+}
+
+.send-message {
+	margin-left: 10px;
+}
+
+/* --- END --- 

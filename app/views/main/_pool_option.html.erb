@@ -1,0 +1,40 @@
+
+<div class="whole-box">
+	<div class="pic-and-info">
+		<div class="pic-div">
+			<!-- <p>[child first name]</p> -->
+			<div class="pic"></div>
+			<!-- <p>[child grade]</p> -->
+		</div>
+		<div class="family-info">
+			<p>The <%= pool_family.last_name %> Family</p>
+			<p><%= pool_family.last_name %></p>
+			<!-- pool_family.students[0].first_name -->
+			<p><%= pool_family.address.splitAddress[0] %></p>
+			<p><%= pool_family.address.splitAddress[1] %></p>
+		</div>
+	</div>
+	<div class="pool-info">
+		<div class="no_carpool">
+			<p>To take your children to and from school, every 5-day week, you:</p>
+			<p>Use <%= ((hs_distance*10)/25).round(2) %> gallons of gas</p>
+			<p>Spend $<%= (((hs_distance*10)/25)*2.70).round(2) %> dollars</p>
+			<p>Spend <%= (hs_time*10).pretty_duration %> in the car</p>
+			<p>Emit <%= (((hs_distance*10)/25)*19.64).round(2) %> pounds of CO2</p>
+			<p>Add <%= (hs_distance*10).round(2) %> miles on your car</p>
+		</div>
+		<div class="if_carpool">
+			<p>By carpooling with this family, you would only, on average:</p>
+			<p>Use <%= ((hps_distance*5)/25).round(2) %> gallons of gas</p>
+			<p>Spend $<%= (((hps_distance*5)/25)*2.70).round(2) %> dollars</p>
+			<p>Spend <%= (hps_time*5).pretty_duration %> in the car</p>
+			<p>Emit <%= (((hps_distance*5)/25)*19.64).round(2) %> pounds of CO2</p>
+			<p>Add <%= (hps_distance*5).round(2) %> miles on your car</p>
+		</div>
+	</div>
+	<div class="send-message">
+		<p>Get in touch with them!</p>
+		<p>Phone: <%= pool_family.phone %></p>
+		<p>Email: <%= pool_family.email %></p>
+	</div>
+</div>

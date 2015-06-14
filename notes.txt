@@ -1,0 +1,9 @@
+# Google Maps API Key: AIzaSyDirDB7V1F3KwSFublV4KmZPhOGnJ71BLE
+
+// 4645 Jett Rd NW Decimal Coordinates: 33.8815, -84.4086
+// AIS coordinates are: 33.833333, -84.378611
+
+// Mapbox access tokens:
+// Yumiko: 'pk.eyJ1IjoieXVtaWtvIiwiYSI6IkRDVk43ZjAifQ.aAdCw3xUw8s1QLZzcBUhbA';
+// Dixon: 'pk.eyJ1IjoiZGl4b25hZGFpciIsImEiOiJhR1dMRERVIn0.fpbNVrP6tCB3jOKzm41vlA'
+// Short access tokens: Yumiko: 'yumiko.lkbilml1', Dixon: 'dixonadair.lkbob6kb'

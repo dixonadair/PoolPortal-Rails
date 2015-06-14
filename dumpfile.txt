@@ -1,0 +1,123 @@
+
+--- DUMPFILE ---
+
+-----------------------------------
+Address that doesn't seem to work: 4241 Frank Neely Road Norcross GA 30092-1320
+-----------------------------------
+http://api.tiles.mapbox.com/v4/geocode/mapbox.places/1600+pennsylvania+ave+nw.json?access_token=pk.eyJ1IjoiZGl4b25hZGFpciIsImEiOiJhR1dMRERVIn0.fpbNVrP6tCB3jOKzm41vlA
+-----------------------------------
+<%= #image_tag("#{pool_family.students[0].image_filename}", size: "110x110") %>
+-----------------------------------
+
+-----------------------------------
+
+-----------------------------------
+
+<!-- =========== C3/D3 ========== -->
+<!-- Load c3.css -->
+<link href="/../../assets/stylesheets/c3.css" rel="stylesheet" type="text/css">
+<!-- Load d3.js and c3.js -->
+<script src="/../../assets/javascripts/d3.js" charset="utf-8"></script>
+<script src="/../../assets/javascripts/c3.js"></script>
+<!-- ============================ -->
+
+-----------------------------------
+
+<% flash.each do |message_type, message| %>
+  <div class="alert alert-<%= message_type %>"><%= message %></div>
+<% end %>
+
+-----------------------------------
+
+-----------------------------------
+
+-----------------------------------
+
+-----------------------------------
+
+-----------------------------------
+
+-----------------------------------
+
+-----------------------------------
+
+    <%= # javascript_tag do %>
+      <!-- window.home_coords = <%= # @home_coords.to_json %> -->
+    <% # end %>
+
+-----------------------------------
+
+"<p class='coords'>"+ [lng, lat] +"</p>"
+
+--- From create schools migration ---
+
+# class CreateSchools < ActiveRecord::Migration
+#   def change
+#     create_table :schools do |t|
+#       t.string :access_code
+#       t.string :name
+#       t.string :address
+#       t.integer :num_students
+
+#       t.timestamps null: false
+#     end
+#   end
+# end
+
+--- From index.erb file ---
+
+<% if session[:user_id] %>
+	<div class="col-md-5 col-md-offset-1 right-side-div">
+		<!--  -->
+	</div>
+</div>
+<% else %>
+		<%= erb :front_page %>
+<% end %>
+
+--- From application.html.erb ---
+
+<link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.1.0/mapbox.directions.css' type='text/css' />
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/mapbox-directions.js/v0.1.0/mapbox.directions.js'></script>
+
+<style>
+  #inputs,
+  #errors,
+  #directions {
+      position: absolute;
+      width: 33.3333%;
+      max-width: 300px;
+      min-width: 200px;
+  }
+
+  #inputs {
+      z-index: 10;
+      top: 10px;
+      left: 10px;
+  }
+
+  #directions {
+      z-index: 99;
+      background: rgba(0,0,0,.8);
+      top: 0;
+      right: 0;
+      bottom: 0;
+      overflow: auto;
+  }
+
+  #errors {
+      z-index: 8;
+      opacity: 0;
+      padding: 10px;
+      border-radius: 0 0 3px 3px;
+      background: rgba(0,0,0,.25);
+      top: 90px;
+      left: 10px;
+  }
+</style>
+
+--- IMAGE ---
+
+<img src="/app.assets/images/<%= pool_family.students[0].image_filename %>" width="100%" height="100%">
+
+--- END ---

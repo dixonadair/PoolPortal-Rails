@@ -1,0 +1,31 @@
+
+<div class="whole-box">
+	<div class="pic-and-info">
+		<div class="pic-div">
+			<!-- <p>[child first name]</p> -->
+			<div class="pic"></div>
+			<!-- <p>[child grade]</p> -->
+		</div>
+		<div class="family-info">
+			<p>The <%= pool_family.last_name %> Family</p>
+			<p><%= pool_family.address.splitAddress[0] %></p>
+			<p><%= pool_family.address.splitAddress[1] %></p>
+		</div>
+	</div>
+	<div class="explanation">Weekly expenditures alone vs. carpooling with the <%= pool_family.last_name %>'s:</div>
+	<div class="pool-info">
+		<div class="first-row">
+			<div class="chart_time"></div>
+			<div class="chart_miles"></div>
+		</div>
+		<div class="second-row">
+			<div class="chart_emissions"></div>
+			<div class="chart_gas"></div>
+		</div>
+	</div>
+	<div class="send-message">
+		<p>Get in touch with them!</p>
+		<p>Phone: <%= pool_family.phone %></p>
+		<p>Email: <%= pool_family.email %></p>
+	</div>
+</div>
