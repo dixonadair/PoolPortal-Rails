@@ -11,6 +11,10 @@ gem 'foreigner'
 gem 'gon' # allows you to pass variables from controller directly to js file
 gem 'paperclip', '~> 3.5.3'
 
+group :production do
+	gem 'pg'
+end
+
 # ---- ORIGINALLY INCLUDED ----
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
