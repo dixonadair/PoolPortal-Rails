@@ -47,6 +47,12 @@ class MainController < ApplicationController
     gon.all_options = Family.where.not(id: session[:user_id])
   end
 
+  def welcome
+    @first_person = Family.first.username
+    p @first_person
+    render "welcome_full"
+  end
+
   def one_pool
     home_coords = []
     # home_coords << current_user.lng << current_user.lat
@@ -127,3 +133,5 @@ end
   # ---------------
 
 # -----------------------------------------
+
+

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   get 'main/:id' => 'main#one_pool'
 
+  get '/index' =>'main#welcome'
+
   # ------------------------
 
   get    'help'    => 'static_pages#help'
