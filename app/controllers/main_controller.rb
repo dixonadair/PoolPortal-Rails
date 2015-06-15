@@ -99,6 +99,13 @@ class MainController < ApplicationController
 
     # response = { pool_partial: render_to_string('main/_pool_option', layout: false, locals: { pool_family: pool_family, hs_time: hs_time, hs_distance: hs_distance, hps_time: hps_time, hps_distance: hps_distance }) }
 
+    # -------------------------
+
+    hs_distance = 50
+    hs_time = 1000
+    hps_distance = 60
+    hps_time = 1300
+
     # --------- C3 Graph version ----------
 
     response = { pool_partial: render_to_string('main/_pool_option_2', layout: false, locals: { pool_family: pool_family }), hs_gas: ((hs_distance*10)/25).round(2), hs_emissions: (((hs_distance*10)/25)*19.64).round(2), hs_dollars: (((hs_distance*10)/25)*2.70).round(2), hs_time: (((hs_time*10).round(2))/3600).round(2), hs_distance: (hs_distance*10).round(2), hps_gas: ((hps_distance*5)/25).round(2), hps_emissions: (((hps_distance*5)/25)*19.64).round(2), hps_dollars: (((hps_distance*5)/25)*2.70).round(2), hps_time: (((hps_time*5).round(2))/3600).round(2), hps_distance: (hps_distance*5).round(2) }
