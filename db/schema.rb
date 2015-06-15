@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150613020027) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "families", force: :cascade do |t|
     t.string   "last_name"
     t.string   "username"
@@ -37,4 +40,3 @@ ActiveRecord::Schema.define(version: 20150613020027) do
     t.string   "image_filename"
   end
 
-end
