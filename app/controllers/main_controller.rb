@@ -47,15 +47,14 @@ class MainController < ApplicationController
     gon.all_options = Family.where.not(id: session[:user_id])
   end
 
-  def welcome
-    @first_person = Family.first.username
-    p @first_person
-    render "welcome_full"
-  end
+  # def welcome
+  #   @first_person = Family.first.username
+  #   p @first_person
+  #   render "welcome_full"
+  # end
 
   def one_pool
     home_coords = []
-    # home_coords << current_user.lng << current_user.lat
     home_coords << Family.find(session[:user_id]).lng << Family.find(session[:user_id]).lat
     school_coords = [-84.378611, 33.833333]
 
@@ -66,12 +65,12 @@ class MainController < ApplicationController
     # -------------------------
 
     # Google Maps
-    # hs_url = "https://maps.googleapis.com/maps/api/directions/json?origin=#{home_coords[1]},#{home_coords[0]}&destination=#{school_coords[1]},#{school_coords[0]}&key=AIzaSyDirDB7V1F3KwSFublV4KmZPhOGnJ71BLE"
-    # hs_response = HTTParty.get(hs_url).to_json
-    # hs_response = JSON.parse(hs_response)
+    hs_url = "https://maps.googleapis.com/maps/api/directions/json?origin=#{home_coords[1]},#{home_coords[0]}&destination=#{school_coords[1]},#{school_coords[0]}&key=AIzaSyDirDB7V1F3KwSFublV4KmZPhOGnJ71BLE"
+    hs_response = HTTParty.get(hs_url).to_json
+    hs_response = JSON.parse(hs_response)
 
-    # hs_time = hs_response["routes"][0]["legs"][0]["duration"]["value"]
-    # hs_distance = hs_response["routes"][0]["legs"][0]["distance"]["value"].meters_to_miles
+    hs_time = hs_response["routes"][0]["legs"][0]["duration"]["value"]
+    hs_distance = hs_response["routes"][0]["legs"][0]["distance"]["value"].meters_to_miles
 
     family = Family.find(session[:user_id])
     hs_time = family.hs_time
@@ -101,10 +100,10 @@ class MainController < ApplicationController
 
     # -------------------------
 
-    hs_distance = 50
-    hs_time = 1000
-    hps_distance = 60
-    hps_time = 1300
+    # hs_distance = 50
+    # hs_time = 1000
+    # hps_distance = 60
+    # hps_time = 1300
 
     # --------- C3 Graph version ----------
 
