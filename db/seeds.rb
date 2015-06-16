@@ -80,37 +80,37 @@ require 'awesome_print'
 	# 	p lat
 	# end
 
-def addressToMapboxFormat(address)
-	return address.gsub(/\s+/, "+")
-end
+# def addressToMapboxFormat(address)
+# 	return address.gsub(/\s+/, "+")
+# end
 
-def addressToCoordinates(address)
-	response = JSON.parse(HTTParty.get("http://api.tiles.mapbox.com/v4/geocode/mapbox.places/#{address}.json?access_token=pk.eyJ1IjoiZGl4b25hZGFpciIsImEiOiJhR1dMRERVIn0.fpbNVrP6tCB3jOKzm41vlA"))
-	if response["features"] != []
-		return response["features"][0]["geometry"]["coordinates"]
-	else
-		return "error"
-	end
-end
+# def addressToCoordinates(address)
+# 	response = JSON.parse(HTTParty.get("http://api.tiles.mapbox.com/v4/geocode/mapbox.places/#{address}.json?access_token=pk.eyJ1IjoiZGl4b25hZGFpciIsImEiOiJhR1dMRERVIn0.fpbNVrP6tCB3jOKzm41vlA"))
+# 	if response["features"] != []
+# 		return response["features"][0]["geometry"]["coordinates"]
+# 	else
+# 		return "error"
+# 	end
+# end
 
-file = File.join(Rails.root, 'lib', 'assets', 'AIS.csv')
+# file = File.join(Rails.root, 'lib', 'assets', 'AIS.csv')
 
-# ---------- For use with "test2.csv" ------------
+# # ---------- For use with "test2.csv" ------------
 
-CSV.foreach(file, :headers => true) do |row|
-  fullAddress = row[3] + " " + row[4] + " " + row[5] + " " + row[6]
-  addressFormatted = addressToMapboxFormat(fullAddress)
-  coordinates = addressToCoordinates(addressFormatted)
-  if coordinates != "error"
-  	Family.create(last_name: row[1], username: row[1].downcase + "123", password: "password123", address: fullAddress, lat: coordinates[1], lng: coordinates[0], phone: Faker::PhoneNumber.cell_phone, email: Faker::Internet.email)
-  else
-  	p "Error with #{row[1]} family."
-  end
-end
+# CSV.foreach(file, :headers => true) do |row|
+#   fullAddress = row[3] + " " + row[4] + " " + row[5] + " " + row[6]
+#   addressFormatted = addressToMapboxFormat(fullAddress)
+#   coordinates = addressToCoordinates(addressFormatted)
+#   if coordinates != "error"
+#   	Family.create(last_name: row[1], username: row[1].downcase + "123", password: "password123", address: fullAddress, lat: coordinates[1], lng: coordinates[0], phone: Faker::PhoneNumber.cell_phone, email: Faker::Internet.email)
+#   else
+#   	p "Error with #{row[1]} family."
+#   end
+# end
 
 # ------------- Add home-school time/distance to DB ---------------
 
-Family.each do |family|
+Family.where("id > ?", 99).each do |family|
 	home_coords = []
 	home_coords << family.lng << family.lat
 	school_coords = [-84.378611, 33.833333]
@@ -119,9 +119,14 @@ Family.each do |family|
 	hs_response = HTTParty.get(hs_url).to_json
 	hs_response = JSON.parse(hs_response)
 
+	# p hs_response["routes"][0]["legs"][0]["duration"]["value"]
+	# p hs_response["routes"][0]["legs"][0]["distance"]["value"].meters_to_miles
+
 	family.hs_time = hs_response["routes"][0]["legs"][0]["duration"]["value"]
 	family.hs_distance = hs_response["routes"][0]["legs"][0]["distance"]["value"].meters_to_miles
 	family.save
+
+	p "#{family.last_name} family complete!"
 end
 
 # -----------------------------------------------------------------
