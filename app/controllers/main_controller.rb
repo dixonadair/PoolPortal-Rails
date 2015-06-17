@@ -2,56 +2,22 @@ require 'httparty'
 require 'json'
 require 'gon'
 
-# --- The below is from Sinatra Project ---
-
-  # get '/' do
-  #   if session[:user_id]
-  #     redirect '/main'
-  #   else
-  #     erb :welcome
-  #   end
-  # end
-
-  # get '/login' do
-  #   erb :login
-  # end
-
-  # post '/login' do
-  #   user = User.find_by(username: params[:username])
-  #   redirect '/login' unless user
-  #   if user.authenticate(params[:password])
-  #     session[:user_id] = user.id
-  #     redirect '/main'
-  #   else
-  #     erb :login
-  #   end
-  # end
-
-  # get '/logout' do
-  #   session[:user_id] = nil
-  #   redirect '/'
-  # end
-
 # -----------------------------------------
 
 class MainController < ApplicationController
   def index
-    # session[:user_id] = 7 #temporary example
     if(session[:user_id])
       id = session[:user_id]
       current_user = Family.find(id)
+    else
+      flash[:danger] = 'You need to log in first!'
+      redirect_to login_path
     end
     gon.school_coords = [-84.378611, 33.833333]
     gon.current_user = current_user
 
     gon.all_options = Family.where.not(id: session[:user_id])
   end
-
-  # def welcome
-  #   @first_person = Family.first.username
-  #   p @first_person
-  #   render "welcome_full"
-  # end
 
   def one_pool
     home_coords = []
@@ -88,22 +54,15 @@ class MainController < ApplicationController
 
     # -------------------------
 
-    # response = { hi: "hi", hs_time: hs_time, hs_distance: hs_distance, hps_time: hps_time, hps_distance: hps_distance, pool_family: pool_family }
+      # response = { hi: "hi", hs_time: hs_time, hs_distance: hs_distance, hps_time: hps_time, hps_distance: hps_distance, pool_family: pool_family }
 
-    # response = { pool_partial: render_to_string(file, layout: false), hi: "hi" }
+      # response = { pool_partial: render_to_string(file, layout: false), hi: "hi" }
 
-    # response = { pool_partial: render_to_string('main/_pool_option', layout: false) }
+      # response = { pool_partial: render_to_string('main/_pool_option', layout: false) }
 
     # --------- Non-graph version ----------
 
-    # response = { pool_partial: render_to_string('main/_pool_option', layout: false, locals: { pool_family: pool_family, hs_time: hs_time, hs_distance: hs_distance, hps_time: hps_time, hps_distance: hps_distance }) }
-
-    # -------------------------
-
-    # hs_distance = 50
-    # hs_time = 1000
-    # hps_distance = 60
-    # hps_time = 1300
+      # response = { pool_partial: render_to_string('main/_pool_option', layout: false, locals: { pool_family: pool_family, hs_time: hs_time, hs_distance: hs_distance, hps_time: hps_time, hps_distance: hps_distance }) }
 
     # --------- C3 Graph version ----------
 
