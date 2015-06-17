@@ -110,7 +110,7 @@ require 'awesome_print'
 
 # ------------- Add home-school time/distance to DB ---------------
 
-Family.where("id > ?", 99).each do |family|
+Family.each do |family|
 	home_coords = []
 	home_coords << family.lng << family.lat
 	school_coords = [-84.378611, 33.833333]
