@@ -1,9 +1,12 @@
+<br>
+<br>
+
 <div class="family-show">
-	<p><%= @family.last_name %></p>
-	<p><%= @family.address %></p>
-	<p><%= @family.password %></p>
-	<p><%= @family.phone %></p>
-	<p><%= @family.email %></p>
+	<p><%= family.last_name %></p>
+	<p><%= family.address %></p>
+	<p><%= family.password %></p>
+	<p><%= family.phone %></p>
+	<p><%= family.email %></p>
 </div>
 
-<%= link_to 'Edit', edit_family_path(@family) %>
+<p class="ajax-edit"><%= link_to 'Edit', edit_family_path(family) %></p>

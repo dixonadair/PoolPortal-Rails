@@ -35,6 +35,25 @@ $(function(){
 	});
 	school_marker.addTo(current_location_map);
 
+	// -------------------------------------------
+
+	var home_marker = L.mapbox.featureLayer({
+	    type: 'Feature',
+	    geometry: {
+	        type: 'Point',
+	        coordinates: [gon.current_user.lng, gon.current_user.lat]// home_coords
+	    },
+	    properties: {
+	        title: 'Home',
+	        'marker-size': 'large',
+	        'marker-color': '#339900',
+	        'marker-symbol': 'building'
+	    }
+	});
+	home_marker.addTo(current_location_map);
+
+// ----------------------------------------------------------------------
+
 	// ---------- Keep school marker z-index at 1000 ----------
 
 	// if ($($('.leaflet-marker-pane img')[0]).css('z-index') !== 1000) {
@@ -57,69 +76,6 @@ $(function(){
 		console.log("bye");
 		$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
 	});
-
-	// -------------------------------------------
-
-	var home_marker = L.mapbox.featureLayer({
-	    type: 'Feature',
-	    geometry: {
-	        type: 'Point',
-	        coordinates: [gon.current_user.lng, gon.current_user.lat]// home_coords
-	    },
-	    properties: {
-	        title: 'Home',
-	        'marker-size': 'large',
-	        'marker-color': '#339900',
-	        'marker-symbol': 'building'
-	    }
-	});
-	home_marker.addTo(current_location_map);
-
-// ----------------------------------------------------------------------
-
-	// var chart = c3.generate({
-	//     bindto: '#chart',
-	//     data: {
-	//       columns: [
-	//         ['data1', 30, 200, 100, 400, 150, 250],
-	//         ['data2', 50, 20, 10, 40, 15, 25]
-	//       ]
-	//     }
-	// });
-
-	// var chart = c3.generate({
-	// 	bindto: '.chart',
-	//     data: {
-	//         // iris data from R
-	//         columns: [
-	//             ['data1', 30],
-	//             ['data2', 120],
-	//         ],
-	//         type : 'pie',
-	//         onclick: function (d, i) { console.log("onclick", d, i); },
-	//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-	//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-	//     }
-	// });
-
-	// setTimeout(function () {
-	//     chart.load({
-	//         columns: [
-	//             ["setosa", 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2],
-	//             ["versicolor", 1.4, 1.5, 1.5, 1.3, 1.5, 1.3, 1.6, 1.0, 1.3, 1.4, 1.0, 1.5, 1.0, 1.4, 1.3, 1.4, 1.5, 1.0, 1.5, 1.1, 1.8, 1.3, 1.5, 1.2, 1.3, 1.4, 1.4, 1.7, 1.5, 1.0, 1.1, 1.0, 1.2, 1.6, 1.5, 1.6, 1.5, 1.3, 1.3, 1.3, 1.2, 1.4, 1.2, 1.0, 1.3, 1.2, 1.3, 1.3, 1.1, 1.3],
-	//             ["virginica", 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2.0, 1.9, 2.1, 2.0, 2.4, 2.3, 1.8, 2.2, 2.3, 1.5, 2.3, 2.0, 2.0, 1.8, 2.1, 1.8, 1.8, 1.8, 2.1, 1.6, 1.9, 2.0, 2.2, 1.5, 1.4, 2.3, 2.4, 1.8, 1.8, 2.1, 2.4, 2.3, 1.9, 2.3, 2.5, 2.3, 1.9, 2.0, 2.3, 1.8],
-	//         ]
-	//     });
-	// }, 1500);
-
-	// setTimeout(function () {
-	//     chart.unload({
-	//         ids: 'data1'
-	//     });
-	//     chart.unload({
-	//         ids: 'data2'
-	//     });
-	// }, 2500);
 
 // ----------------------------------------------------------------------
 
@@ -164,27 +120,74 @@ $(function(){
 	// 	console.log(some);
 	// 	console.log(e);
 	// });
+
 // ----------------------------------------------------------------------
 
 	$('.my-profile').on('click', 'a', function(e) {
-		console.log(e);
 		e.preventDefault();
-		// console.log(gon.current_user);
-
 		var ajaxRequest = $.ajax({
-			url: '/families/blablabla',
+			url: '/families/show1',
 			type: 'GET'
 		});
 		ajaxRequest.done(function(response) {
-			// $('.right-side-div').html(response);
+			$('.right-side-div').html(response.hi);
 			console.log("success");
-			console.log(response);
-			// $('.right-side-div').html("hello");
 		});
 		ajaxRequest.fail(function() {
 			console.log("error");
 		});
-		
+	});
+
+	$('.right-side-div').on('click', '.ajax-edit', function(e) {
+		e.preventDefault();
+		console.log(e);
+		var ajaxRequest = $.ajax({
+			url: '/families/edit1',
+			type: 'GET'
+		});
+		ajaxRequest.done(function(response) {
+			console.log(response);
+			$('.right-side-div').html(response.ha);
+			console.log("success");
+		});
+		ajaxRequest.fail(function() {
+			console.log("error");
+		});
+	});
+
+	$('.right-side-div').on('click', '.submit-update', function(e) {
+		e.preventDefault();
+		var form_entries = $('form').serialize();
+		// console.log(form_entries);
+
+		// -------------------------------------------------------------------
+			// var password = $($('form .password-field input')[0]).attr('value');
+			// var email = $($('form .email-field input')[0]).attr('value');
+			// var last_name = $($('form .last_name-field input')[0]).attr('value');
+			// var address = $($('form .address-field input')[0]).attr('value');
+			// var phone = $($('form .phone-field input')[0]).attr('value');
+
+			// console.log(password);
+			// console.log(email);
+			// console.log(last_name);
+			// console.log(address);
+			// console.log(phone);
+
+		var ajaxRequest = $.ajax({
+			url: '/families/update',
+			type: 'PATCH', // might be 'PATCH', but I don't think so
+			dataType: 'JSON',
+			data: form_entries
+			// data: { password: password, email: email, last_name: last_name, address: address, phone: phone }
+		});
+		ajaxRequest.done(function(response) {
+			console.log("success");
+			console.log(response.the_params);
+			$('.right-side-div').html("");
+		});
+		ajaxRequest.fail(function() {
+			console.log("error");
+		});
 	});
 
 // ----------------------------------------------------------------------
