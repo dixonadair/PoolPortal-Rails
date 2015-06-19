@@ -53,11 +53,8 @@
             <li><a href="#">Separated link</a></li>
           </ul>
         </li> -->
-        <% if(session[:user_id]) %>
-          <li><%= link_to "My Profile", family_path(session[:user_id]) %></li>
-        <% end %>
-        <!-- <li class="divider"></li> -->
         <% if (session[:user_id]) %>
+          <li class="my-profile"><a href="#">My Profile</a></li>
           <li><%= link_to "Log out", logout_path, method: "delete" %></li>
           <!-- <li><a href="/logout">Logout</a></li> -->
         <% else %>

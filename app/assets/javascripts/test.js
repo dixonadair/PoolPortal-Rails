@@ -164,6 +164,28 @@ $(function(){
 	// 	console.log(some);
 	// 	console.log(e);
 	// });
+// ----------------------------------------------------------------------
+
+	$('.my-profile').on('click', 'a', function(e) {
+		console.log(e);
+		e.preventDefault();
+		// console.log(gon.current_user);
+
+		var ajaxRequest = $.ajax({
+			url: '/families/blablabla',
+			type: 'GET'
+		});
+		ajaxRequest.done(function(response) {
+			// $('.right-side-div').html(response);
+			console.log("success");
+			console.log(response);
+			// $('.right-side-div').html("hello");
+		});
+		ajaxRequest.fail(function() {
+			console.log("error");
+		});
+		
+	});
 
 // ----------------------------------------------------------------------
 

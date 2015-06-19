@@ -4,6 +4,14 @@ class FamiliesController < ApplicationController
     @family = Family.find(session[:user_id])
   end
 
+  def blablabla
+  	some = "some"
+  	something = "something"
+  	# @family = Family.find(session[:user_id])
+  	response = { some: some, something: something }
+  	render json: response
+  end
+
   def edit
   	@family = Family.find(session[:user_id])
   end
@@ -23,3 +31,5 @@ class FamiliesController < ApplicationController
     end
 
 end
+
+# family_info: render_to_string('families/_show', layout: false)
