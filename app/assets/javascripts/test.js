@@ -8,10 +8,32 @@ $(function(){
 	L.mapbox.accessToken = 'pk.eyJ1IjoiZGl4b25hZGFpciIsImEiOiJhR1dMRERVIn0.fpbNVrP6tCB3jOKzm41vlA';
 
 	var current_location_map = L.mapbox.map('current_location_map', 'dixonadair.lkbob6kb');
-	var myLayer = L.mapbox.featureLayer().addTo(current_location_map);
+	var myLayer = L.mapbox.featureLayer().addTo(current_location_map); //may be unnecessary since we are already adding the markers and layer all at once later on
 
-	// Center map at school location
-	current_location_map.setView([gon.school_coords[1], gon.school_coords[0]], 12);
+	var firstCoords;
+	var secondCoords;
+	var distCalc = function(foreignLat, foreignLng) {
+		firstCoords = new google.maps.LatLng(gon.current_user.lat, gon.current_user.lng);
+		secondCoords = new google.maps.LatLng(foreignLat, foreignLng);
+		var dist = google.maps.geometry.spherical.computeDistanceBetween(firstCoords, secondCoords);
+		return (dist*0.000621371); // meters to miles
+	};
+
+	var zoomLevel;
+	if ( distCalc(gon.school_coords[1], gon.school_coords[0]) < 5 ) {
+		zoomLevel = 12;
+	} else if ( distCalc(gon.school_coords[1], gon.school_coords[0]) < 10 ) {
+		zoomLevel = 11;
+	} else if ( distCalc(gon.school_coords[1], gon.school_coords[0]) < 20 ) {
+		zoomLevel = 10;
+	} else {
+		zoomLevel = 9;
+	};
+
+	console.log(zoomLevel);
+
+	// Center map at school location with appropriate zoom level
+	current_location_map.setView([gon.school_coords[1], gon.school_coords[0]], zoomLevel);
 
 // ----------------------------------------------------------------------
 
@@ -78,38 +100,115 @@ $(function(){
 	});
 
 // ----------------------------------------------------------------------
+	
+	// --- non-geoJSON way of putting markers on map ---
 
-	var popupDescription = "";
+	// var popupDescription = "";
+	
+	// // marker generating function
+	// var markerGenerator = function(lat, lng, family_id) {
+	// 	var marker;
+	// 	popupDescription = "<div class='pool_option'><a href='http://localhost:9393/main/"+ family_id +"'>Carpool Information</a></div>"
+
+	// 	marker = L.mapbox.featureLayer({
+	// 	    type: 'Feature',
+	// 	    geometry: {
+	// 	        type: 'Point',
+	// 	        coordinates: [parseFloat(lng), parseFloat(lat)]
+	// 	    },
+	// 	    properties: {
+	// 	        title: popupDescription,
+	// 	        'marker-size': 'small',
+	// 	        'marker-color': '#ff8888',
+	// 	        "5-mile": false,
+	// 	        "10-mile": true
+	// 	    }
+	// 	});
+	// 	marker.addTo(current_location_map);
+	// };
+
+	// // family iterating function
+	// var iterateFamilies = function(family_list) {
+	// 	for (var i = 0; i < family_list.length; i++) {
+	// 		markerGenerator(family_list[i].lat, family_list[i].lng, family_list[i].id);
+	// 		// console.log(family_list[i].id);
+	//     }
+	// };
+
+	// iterateFamilies(gon.all_options);
+
+// ----------------------------------------------------------------------
+
+	var radiusChecker = function(miles, foreignLat, foreignLng) {
+		if ( distCalc(foreignLat, foreignLng) > miles ) {
+			return false;
+		} else {
+			return true;
+		}
+	};
+
+	var geojson = [];
 	
 	// marker generating function
-	var markerGenerator = function(lat, lng, family_id) {
+	var popupDescription = "";
+	var geoJSONMarkerGenerator = function(lat, lng, family_id) {
 		var marker;
 		popupDescription = "<div class='pool_option'><a href='http://localhost:9393/main/"+ family_id +"'>Carpool Information</a></div>"
 
-		marker = L.mapbox.featureLayer({
-		    type: 'Feature',
-		    geometry: {
-		        type: 'Point',
-		        coordinates: [parseFloat(lng), parseFloat(lat)]
-		    },
-		    properties: {
-		        title: popupDescription,
-		        'marker-size': 'small',
-		        'marker-color': '#ff8888'
-		    }
-		});
-		marker.addTo(current_location_map);
+		marker = {
+		  "type": "Feature",
+		  "geometry": {
+		    "coordinates": [
+		      parseFloat(lng),
+		      parseFloat(lat)
+		    ],
+		    "type": "Point"
+		  },
+		  "properties": {
+		    "title": popupDescription,
+		    "0.5-mile": radiusChecker(0.5, parseFloat(lat), parseFloat(lng)),
+		    "1-mile": radiusChecker(1, parseFloat(lat), parseFloat(lng)),
+		    "2-mile": radiusChecker(2, parseFloat(lat), parseFloat(lng)),
+		    "5-mile": radiusChecker(5, parseFloat(lat), parseFloat(lng)),
+		    "10-mile": radiusChecker(10, parseFloat(lat), parseFloat(lng)),
+		    "marker-color": "#ff8888",
+		    "marker-size": "small"
+		  }
+		};
+		geojson.push(marker);
+		// marker.addTo(current_location_map);
 	};
 
 	// family iterating function
 	var iterateFamilies = function(family_list) {
 		for (var i = 0; i < family_list.length; i++) {
-			markerGenerator(family_list[i].lat, family_list[i].lng, family_list[i].id);
+			geoJSONMarkerGenerator(family_list[i].lat, family_list[i].lng, family_list[i].id);
 			// console.log(family_list[i].id);
 	    }
 	};
 
 	iterateFamilies(gon.all_options);
+
+// ----------------------------------------------------------------------
+
+	var markers = L.mapbox.featureLayer()
+	    .setGeoJSON(geojson)
+	    .addTo(current_location_map);
+
+	$('.menu-ui a').on('click', function(e) {
+		e.preventDefault();
+		console.log(e);
+	    // For each filter link, get the 'data-filter' attribute value.
+	    var filter = $(this).data('filter');
+	    $(this).addClass('active').siblings().removeClass('active');
+	    markers.setFilter(function(f) {
+	        // If the data-filter attribute is set to "all", return
+	        // all (true). Otherwise, filter on markers that have
+	        // a value set to true based on the filter name.
+	        return (filter === 'all') ? true : f.properties[filter] === true;
+	    });
+	    return false;
+	});
 
 // ----------------------------------------------------------------------
 
@@ -211,82 +310,83 @@ $(function(){
 			console.log("success");
 			// console.log(response);
 			$('.right-side-div').html(response.pool_partial);
-			var chart_time = c3.generate({
-				bindto: '.chart_time',
-				axis: {
-				  y: {
-				    label: 'Hours'
-				  }
-				},
-			    data: {
-			        // iris data from R
-			        columns: [
-			            ['Alone', response.hs_time],
-			            ['Carpool', response.hps_time],
-			        ],
-			        type : 'bar',
-			        onclick: function (d, i) { console.log("onclick", d, i); },
-			        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-			        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-			    }
-			});
-			var chart_miles = c3.generate({
-				bindto: '.chart_miles',
-				axis: {
-				  y: {
-				    label: 'Miles'
-				  }
-				},
-			    data: {
-			        // iris data from R
-			        columns: [
-			            ['Alone', response.hs_distance],
-			            ['Carpool', response.hps_distance],
-			        ],
-			        type : 'bar',
-			        onclick: function (d, i) { console.log("onclick", d, i); },
-			        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-			        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-			    }
-			});
-			var chart_emissions = c3.generate({
-				bindto: '.chart_emissions',
-				axis: {
-				  y: {
-				    label: 'CO2 pounds'
-				  }
-				},
-			    data: {
-			        // iris data from R
-			        columns: [
-			            ['Alone', response.hs_emissions],
-			            ['Carpool', response.hps_emissions],
-			        ],
-			        type : 'bar',
-			        onclick: function (d, i) { console.log("onclick", d, i); },
-			        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-			        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-			    }
-			});
-			var chart_gas = c3.generate({
-				bindto: '.chart_gas',
-				axis: {
-				  y: {
-				    label: 'Gallons of gas'
-				  }
-				},
-			    data: {
-			        // iris data from R
-			        columns: [
-			            ['Alone', response.hs_gas],
-			            ['Carpool', response.hps_gas],
-			        ],
-			        type : 'bar',
-			        onclick: function (d, i) { console.log("onclick", d, i); },
-			        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-			        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-			    }
-			});
+			// Uncomment the below when using pool_option_2.html.erb
+			// var chart_time = c3.generate({
+			// 	bindto: '.chart_time',
+			// 	axis: {
+			// 	  y: {
+			// 	    label: 'Hours'
+			// 	  }
+			// 	},
+			//     data: {
+			//         // iris data from R
+			//         columns: [
+			//             ['Alone', response.hs_time],
+			//             ['Carpool', response.hps_time],
+			//         ],
+			//         type : 'bar',
+			//         onclick: function (d, i) { console.log("onclick", d, i); },
+			//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+			//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+			//     }
+			// });
+			// var chart_miles = c3.generate({
+			// 	bindto: '.chart_miles',
+			// 	axis: {
+			// 	  y: {
+			// 	    label: 'Miles'
+			// 	  }
+			// 	},
+			//     data: {
+			//         // iris data from R
+			//         columns: [
+			//             ['Alone', response.hs_distance],
+			//             ['Carpool', response.hps_distance],
+			//         ],
+			//         type : 'bar',
+			//         onclick: function (d, i) { console.log("onclick", d, i); },
+			//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+			//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+			//     }
+			// });
+			// var chart_emissions = c3.generate({
+			// 	bindto: '.chart_emissions',
+			// 	axis: {
+			// 	  y: {
+			// 	    label: 'CO2 pounds'
+			// 	  }
+			// 	},
+			//     data: {
+			//         // iris data from R
+			//         columns: [
+			//             ['Alone', response.hs_emissions],
+			//             ['Carpool', response.hps_emissions],
+			//         ],
+			//         type : 'bar',
+			//         onclick: function (d, i) { console.log("onclick", d, i); },
+			//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+			//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+			//     }
+			// });
+			// var chart_gas = c3.generate({
+			// 	bindto: '.chart_gas',
+			// 	axis: {
+			// 	  y: {
+			// 	    label: 'Gallons of gas'
+			// 	  }
+			// 	},
+			//     data: {
+			//         // iris data from R
+			//         columns: [
+			//             ['Alone', response.hs_gas],
+			//             ['Carpool', response.hps_gas],
+			//         ],
+			//         type : 'bar',
+			//         onclick: function (d, i) { console.log("onclick", d, i); },
+			//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+			//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+			//     }
+			// });
 		});
 		ajaxRequest.fail(function() {
 			console.log("error");

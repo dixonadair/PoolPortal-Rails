@@ -38,9 +38,9 @@ class MainController < ApplicationController
     hs_time = hs_response["routes"][0]["legs"][0]["duration"]["value"]
     hs_distance = hs_response["routes"][0]["legs"][0]["distance"]["value"].meters_to_miles
 
-    family = Family.find(session[:user_id])
-    hs_time = family.hs_time
-    hs_distance = family.hs_distance
+    # family = Family.find(session[:user_id])
+    # hs_time = family.hs_time
+    # hs_distance = family.hs_distance
 
     # -------------------------
 
@@ -66,7 +66,15 @@ class MainController < ApplicationController
 
     # --------- C3 Graph version ----------
 
-    response = { pool_partial: render_to_string('main/_pool_option_2', layout: false, locals: { pool_family: pool_family }), hs_gas: ((hs_distance*10)/25).round(2), hs_emissions: (((hs_distance*10)/25)*19.64).round(2), hs_dollars: (((hs_distance*10)/25)*2.70).round(2), hs_time: (((hs_time*10).round(2))/3600).round(2), hs_distance: (hs_distance*10).round(2), hps_gas: ((hps_distance*5)/25).round(2), hps_emissions: (((hps_distance*5)/25)*19.64).round(2), hps_dollars: (((hps_distance*5)/25)*2.70).round(2), hps_time: (((hps_time*5).round(2))/3600).round(2), hps_distance: (hps_distance*5).round(2) }
+    # To use with 'main/_pool_option_2'
+    # response = { pool_partial: render_to_string('main/_pool_option_2', layout: false, locals: { pool_family: pool_family }), hs_gas: ((hs_distance*10)/25).round(2), hs_emissions: (((hs_distance*10)/25)*19.64).round(2), hs_dollars: (((hs_distance*10)/25)*2.70).round(2), hs_time: (((hs_time*10).round(2))/3600).round(2), hs_distance: (hs_distance*10).round(2), hps_gas: ((hps_distance*5)/25).round(2), hps_emissions: (((hps_distance*5)/25)*19.64).round(2), hps_dollars: (((hps_distance*5)/25)*2.70).round(2), hps_time: (((hps_time*5).round(2))/3600).round(2), hps_distance: (hps_distance*5).round(2) }
+
+    # To use with 'main/_pool_option_3'
+    response = { pool_partial: render_to_string('main/_pool_option_3', layout: false, locals: { pool_family: pool_family, hs_gas: ((hs_distance*10)/25).round(2), hs_emissions: (((hs_distance*10)/25)*19.64).round(2), hs_dollars: (((hs_distance*10)/25)*2.70).round(2), hs_time: hs_time*10, hs_distance: (hs_distance*10).round(2), hps_gas: ((hps_distance*5)/25).round(2), hps_emissions: (((hps_distance*5)/25)*19.64).round(2), hps_dollars: (((hps_distance*5)/25)*2.70).round(2), hps_time: hps_time*5, hps_distance: (hps_distance*5).round(2) }) }
+
+    # response = { pool_partial: render_to_string('main/_pool_option_3', layout: false, locals: { pool_family: pool_family }) }
+
+    # response = { wtf: render_to_string('main/test', layout: false) }
 
   	render json: response
   end

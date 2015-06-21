@@ -1,4 +1,3 @@
-
 <div class="whole-box">
 	<div class="pic-and-info">
 		<div class="pic-div">
@@ -12,15 +11,47 @@
 			<p><%= pool_family.address.splitAddress[1] %></p>
 		</div>
 	</div>
-	<div class="explanation">Weekly expenditures alone vs. carpooling with the <%= pool_family.last_name %>'s:</div>
+	<div class="explanation">Weekly savings by carpooling with the <%= pool_family.last_name %> family:</div>
 	<div class="pool-info">
 		<div class="first-row">
-			<div class="chart_time"></div>
-			<div class="chart_miles"></div>
+			<div class="chart_time">
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<h3 class="savings-text"><%= ((hs_time - hps_time).round.to_i) %></h3>
+			</div>
+			<div class="chart_miles">
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<h3 class="savings-text"><%= (hs_distance - hps_distance).round(2) %> Miles</h3>
+			</div>
 		</div>
 		<div class="second-row">
-			<div class="chart_emissions"></div>
-			<div class="chart_gas"></div>
+			<div class="chart_emissions">
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<h3 class="savings-text"><%= (hs_emissions - hps_emissions).round(2) %> pounds CO2</h3>
+			</div>
+			<div class="chart_gas">
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<h3 class="savings-text">$<%= (hs_dollars - hps_dollars).round(2) %></h3>
+			</div>
 		</div>
 	</div>
 	<div class="send-message">

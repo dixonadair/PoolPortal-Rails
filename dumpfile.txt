@@ -9,6 +9,11 @@ http://api.tiles.mapbox.com/v4/geocode/mapbox.places/1600+pennsylvania+ave+nw.js
 <%= #image_tag("#{pool_family.students[0].image_filename}", size: "110x110") %>
 -----------------------------------
 
+((hs_time*10) - (hps_time*5)).pretty_duration
+(hs_distance*10).round(2) - (hps_distance*5).round(2)
+(((hs_distance*10)/25)*19.64).round(2) - (((hps_distance*5)/25)*19.64).round(2)
+(((hs_distance*10)/25)*2.70).round(2) - (((hps_distance*5)/25)*2.70).round(2)
+
 -----------------------------------
 
 -----------------------------------
