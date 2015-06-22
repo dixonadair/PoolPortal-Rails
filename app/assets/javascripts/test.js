@@ -19,6 +19,7 @@ $(function(){
 		return (dist*0.000621371); // meters to miles
 	};
 
+	// Set appropriate zoom level for map
 	var zoomLevel;
 	if ( distCalc(gon.school_coords[1], gon.school_coords[0]) < 5 ) {
 		zoomLevel = 12;
@@ -29,10 +30,9 @@ $(function(){
 	} else {
 		zoomLevel = 9;
 	};
+	// console.log(zoomLevel);
 
-	console.log(zoomLevel);
-
-	// Center map at school location with appropriate zoom level
+	// Center map at school location with zoom level
 	current_location_map.setView([gon.school_coords[1], gon.school_coords[0]], zoomLevel);
 
 // ----------------------------------------------------------------------
@@ -151,9 +151,9 @@ $(function(){
 	
 	// marker generating function
 	var popupDescription = "";
-	var geoJSONMarkerGenerator = function(lat, lng, family_id) {
+	var geoJSONMarkerGenerator = function(lat, lng, family_id, family_last_name) {
 		var marker;
-		popupDescription = "<div class='pool_option'><a href='http://localhost:9393/main/"+ family_id +"'>Carpool Information</a></div>"
+		popupDescription = "<p>"+ family_last_name +" Family<p><div class='pool_option'><a href='http://localhost:9393/main/"+ family_id +"'>Carpool Information</a></div>"
 
 		marker = {
 		  "type": "Feature",
@@ -171,6 +171,7 @@ $(function(){
 		    "2-mile": radiusChecker(2, parseFloat(lat), parseFloat(lng)),
 		    "5-mile": radiusChecker(5, parseFloat(lat), parseFloat(lng)),
 		    "10-mile": radiusChecker(10, parseFloat(lat), parseFloat(lng)),
+		    "last_name": family_last_name,
 		    "marker-color": "#ff8888",
 		    "marker-size": "small"
 		  }
@@ -182,7 +183,7 @@ $(function(){
 	// family iterating function
 	var iterateFamilies = function(family_list) {
 		for (var i = 0; i < family_list.length; i++) {
-			geoJSONMarkerGenerator(family_list[i].lat, family_list[i].lng, family_list[i].id);
+			geoJSONMarkerGenerator(family_list[i].lat, family_list[i].lng, family_list[i].id, family_list[i].last_name);
 			// console.log(family_list[i].id);
 	    }
 	};
@@ -190,11 +191,13 @@ $(function(){
 	iterateFamilies(gon.all_options);
 
 // ----------------------------------------------------------------------
-
+	
+	// Add markers to map
 	var markers = L.mapbox.featureLayer()
 	    .setGeoJSON(geojson)
 	    .addTo(current_location_map);
 
+	// Filter markers based on radius from home
 	$('.menu-ui a').on('click', function(e) {
 		e.preventDefault();
 		console.log(e);
@@ -212,6 +215,29 @@ $(function(){
 
 // ----------------------------------------------------------------------
 
+	// Once "enter" key is pressed inside search family bar, do the following
+	$('#search').keypress(function(e) {
+	    if(e.which == 13) {
+	        console.log('You pressed enter!');
+	        searchFunc();
+	    }
+	});
+
+	// Search markers by family
+	function searchFunc() {
+	    // get the value of the search input field
+	    var searchString = $('#search').val(); //.toLowerCase();
+	    markers.setFilter(showFamily);
+
+	    // here we're simply comparing the 'state' property of each marker
+	    // to the search string, seeing whether the former contains the latter.
+	    function showFamily(feature) {
+	        return feature.properties.last_name === searchString;
+	    }
+	};
+
+// ----------------------------------------------------------------------
+
 	// $('.leaflet-marker-pane img').on('click', function(e) {
 	// 	e.preventDefault();
 	// 	// var fam_id = e.
@@ -222,6 +248,7 @@ $(function(){
 
 // ----------------------------------------------------------------------
 
+	// View, edit, and update "my profile" all with ajax
 	$('.my-profile').on('click', 'a', function(e) {
 		e.preventDefault();
 		var ajaxRequest = $.ajax({
@@ -274,10 +301,9 @@ $(function(){
 
 		var ajaxRequest = $.ajax({
 			url: '/families/update',
-			type: 'PATCH', // might be 'PATCH', but I don't think so
+			type: 'PATCH',
 			dataType: 'JSON',
 			data: form_entries
-			// data: { password: password, email: email, last_name: last_name, address: address, phone: phone }
 		});
 		ajaxRequest.done(function(response) {
 			console.log("success");
