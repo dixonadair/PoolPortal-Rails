@@ -7,7 +7,7 @@
 		</div>
 		<div class="family-info">
 			<p>The <%= pool_family.last_name %> Family</p>
-			<p><%= pool_family.address.splitAddress[0] %></p>
+			<p><%= pool_family.address.splitAddress[0] %><%= link_to " (Get Directions)", "https://www.google.com/maps/dir/#{Family.find(session[:user_id]).address}/#{pool_family.address}", :target => "_blank" %></p>
 			<p><%= pool_family.address.splitAddress[1] %></p>
 		</div>
 	</div>
@@ -21,7 +21,7 @@
 				<br>
 				<br>
 				<br>
-				<h3 class="savings-text"><%= ((hs_time - hps_time).round.to_i) %></h3>
+				<h3 class="savings-text"><%= ((hs_time - hps_time).round.to_i).pretty_duration %></h3>
 			</div>
 			<div class="chart_miles">
 				<br>
@@ -51,6 +51,7 @@
 				<br>
 				<br>
 				<h3 class="savings-text">$<%= (hs_dollars - hps_dollars).round(2) %></h3>
+				<!-- <h6>($<%= cur_price %>/gallon)</h6> -->
 			</div>
 		</div>
 	</div>
