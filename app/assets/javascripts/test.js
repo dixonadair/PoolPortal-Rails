@@ -10,6 +10,7 @@ $(function(){
 	var current_location_map = L.mapbox.map('current_location_map', 'dixonadair.lkbob6kb');
 	var myLayer = L.mapbox.featureLayer().addTo(current_location_map); //may be unnecessary since we are already adding the markers and layer all at once later on
 
+	// Calculate distance from coord1 to coord2 in miles
 	var firstCoords;
 	var secondCoords;
 	var distCalc = function(foreignLat, foreignLng) {
@@ -22,34 +23,36 @@ $(function(){
 	// Set appropriate zoom level for map
 	var zoomLevel;
 	if ( distCalc(gon.school_coords[1], gon.school_coords[0]) < 5 ) {
-		zoomLevel = 12;
-	} else if ( distCalc(gon.school_coords[1], gon.school_coords[0]) < 10 ) {
 		zoomLevel = 11;
-	} else if ( distCalc(gon.school_coords[1], gon.school_coords[0]) < 20 ) {
+	} else if ( distCalc(gon.school_coords[1], gon.school_coords[0]) < 10 ) {
 		zoomLevel = 10;
-	} else {
+	} else if ( distCalc(gon.school_coords[1], gon.school_coords[0]) < 20 ) {
 		zoomLevel = 9;
+	} else {
+		zoomLevel = 8;
 	};
 	// console.log(zoomLevel);
 
-	// Center map at school location with zoom level
+	// Center map at school location with appropriate zoom level
 	current_location_map.setView([gon.school_coords[1], gon.school_coords[0]], zoomLevel);
 
 // ----------------------------------------------------------------------
 
-// -- 1 --
+	// -- 1 --
 
 // ----------------------------------------------------------------------
 
-	// Make home and school markers and add to map
 	var school_marker = L.mapbox.featureLayer({
 	    type: 'Feature',
 	    geometry: {
 	        type: 'Point',
-	        coordinates: gon.school_coords
-	    },
+	        coordinates: [
+	        parseFloat(gon.school_coords[0]),
+	        parseFloat(gon.school_coords[1])]
+		},
 	    properties: {
 	        title: 'School',
+	        'always-show': true,
 	        'marker-size': 'large',
 	        'marker-color': '#ff0000',
 	        'marker-symbol': 'school'
@@ -57,16 +60,17 @@ $(function(){
 	});
 	school_marker.addTo(current_location_map);
 
-	// -------------------------------------------
-
 	var home_marker = L.mapbox.featureLayer({
 	    type: 'Feature',
 	    geometry: {
 	        type: 'Point',
-	        coordinates: [gon.current_user.lng, gon.current_user.lat]// home_coords
-	    },
+	        coordinates: [
+	        parseFloat(gon.current_user.lng),
+	        parseFloat(gon.current_user.lat)]
+		},
 	    properties: {
 	        title: 'Home',
+	        'always-show': true,
 	        'marker-size': 'large',
 	        'marker-color': '#339900',
 	        'marker-symbol': 'building'
@@ -74,70 +78,14 @@ $(function(){
 	});
 	home_marker.addTo(current_location_map);
 
-// ----------------------------------------------------------------------
-
-	// ---------- Keep school marker z-index at 1000 ----------
-
-	// if ($($('.leaflet-marker-pane img')[0]).css('z-index') !== 1000) {
-	// 	$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
-	// };
-
-	if (1 === 1) {
-		$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
-		// $($('.leaflet-marker-pane img')[0]).zIndexOffset(1000);
-	}
-
-	$('.leaflet-control-zoom-out').on('click', function(e) {
-		e.preventDefault();
-		console.log("hi");
-		$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
-	});
-
-	$('.leaflet-control-zoom-in').on('click', function(e) {
-		e.preventDefault();
-		console.log("bye");
-		$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
-	});
+	// Set school marker z-index at 1000
+	$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
+	$($('.leaflet-marker-pane img')[1]).css('z-index', 1000);
 
 // ----------------------------------------------------------------------
-	
-	// --- non-geoJSON way of putting markers on map ---
 
-	// var popupDescription = "";
-	
-	// // marker generating function
-	// var markerGenerator = function(lat, lng, family_id) {
-	// 	var marker;
-	// 	popupDescription = "<div class='pool_option'><a href='http://localhost:9393/main/"+ family_id +"'>Carpool Information</a></div>"
-
-	// 	marker = L.mapbox.featureLayer({
-	// 	    type: 'Feature',
-	// 	    geometry: {
-	// 	        type: 'Point',
-	// 	        coordinates: [parseFloat(lng), parseFloat(lat)]
-	// 	    },
-	// 	    properties: {
-	// 	        title: popupDescription,
-	// 	        'marker-size': 'small',
-	// 	        'marker-color': '#ff8888',
-	// 	        "5-mile": false,
-	// 	        "10-mile": true
-	// 	    }
-	// 	});
-	// 	marker.addTo(current_location_map);
-	// };
-
-	// // family iterating function
-	// var iterateFamilies = function(family_list) {
-	// 	for (var i = 0; i < family_list.length; i++) {
-	// 		markerGenerator(family_list[i].lat, family_list[i].lng, family_list[i].id);
-	// 		// console.log(family_list[i].id);
-	//     }
-	// };
-
-	// iterateFamilies(gon.all_options);
-
-// ----------------------------------------------------------------------
+	// This variable will hold all geoJSON markers
+	var geojson = [];
 
 	var radiusChecker = function(miles, foreignLat, foreignLng) {
 		if ( distCalc(foreignLat, foreignLng) > miles ) {
@@ -146,14 +94,12 @@ $(function(){
 			return true;
 		}
 	};
-
-	var geojson = [];
 	
 	// marker generating function
 	var popupDescription = "";
 	var geoJSONMarkerGenerator = function(lat, lng, family_id, family_last_name) {
 		var marker;
-		popupDescription = "<p>"+ family_last_name +" Family<p><div class='pool_option'><a href='http://localhost:9393/main/"+ family_id +"'>Carpool Information</a></div>"
+		popupDescription = "<p>"+ family_last_name +" Family<p><div class='pool_option'><a href='http://localhost:9393/main/"+ family_id +"'>Get Carpool Information</a></div>"
 
 		marker = {
 		  "type": "Feature",
@@ -177,14 +123,12 @@ $(function(){
 		  }
 		};
 		geojson.push(marker);
-		// marker.addTo(current_location_map);
 	};
 
 	// family iterating function
 	var iterateFamilies = function(family_list) {
 		for (var i = 0; i < family_list.length; i++) {
 			geoJSONMarkerGenerator(family_list[i].lat, family_list[i].lng, family_list[i].id, family_list[i].last_name);
-			// console.log(family_list[i].id);
 	    }
 	};
 
@@ -197,10 +141,14 @@ $(function(){
 	    .setGeoJSON(geojson)
 	    .addTo(current_location_map);
 
+	// Initially (default view) only show families within 2-mile radius of home
+	markers.setFilter(function(f) {
+	    return (f.properties["2-mile"] === true || f.properties["always-show"] === true);
+	});
+
 	// Filter markers based on radius from home
 	$('.menu-ui a').on('click', function(e) {
 		e.preventDefault();
-		console.log(e);
 	    // For each filter link, get the 'data-filter' attribute value.
 	    var filter = $(this).data('filter');
 	    $(this).addClass('active').siblings().removeClass('active');
@@ -208,7 +156,7 @@ $(function(){
 	        // If the data-filter attribute is set to "all", return
 	        // all (true). Otherwise, filter on markers that have
 	        // a value set to true based on the filter name.
-	        return (filter === 'all') ? true : f.properties[filter] === true;
+	        return (filter === 'all') ? true : (f.properties[filter] === true || f.properties["always-show"] === true);
 	    });
 	    return false;
 	});
@@ -218,7 +166,6 @@ $(function(){
 	// Once "enter" key is pressed inside search family bar, do the following
 	$('#search').keypress(function(e) {
 	    if(e.which == 13) {
-	        console.log('You pressed enter!');
 	        searchFunc();
 	    }
 	});
@@ -232,7 +179,7 @@ $(function(){
 	    // here we're simply comparing the 'state' property of each marker
 	    // to the search string, seeing whether the former contains the latter.
 	    function showFamily(feature) {
-	        return feature.properties.last_name === searchString;
+	        return (feature.properties.last_name === searchString || feature.properties["always-show"] === true);
 	    }
 	};
 
@@ -626,3 +573,103 @@ $(function(){
   	// };
 
 // ----------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
+	
+	// --- non-geoJSON way of putting markers on map ---
+
+	// var popupDescription = "";
+	
+	// // marker generating function
+	// var markerGenerator = function(lat, lng, family_id) {
+	// 	var marker;
+	// 	popupDescription = "<div class='pool_option'><a href='http://localhost:9393/main/"+ family_id +"'>Carpool Information</a></div>"
+
+	// 	marker = L.mapbox.featureLayer({
+	// 	    type: 'Feature',
+	// 	    geometry: {
+	// 	        type: 'Point',
+	// 	        coordinates: [parseFloat(lng), parseFloat(lat)]
+	// 	    },
+	// 	    properties: {
+	// 	        title: popupDescription,
+	// 	        'marker-size': 'small',
+	// 	        'marker-color': '#ff8888',
+	// 	        "5-mile": false,
+	// 	        "10-mile": true
+	// 	    }
+	// 	});
+	// 	marker.addTo(current_location_map);
+	// };
+
+	// // family iterating function
+	// var iterateFamilies = function(family_list) {
+	// 	for (var i = 0; i < family_list.length; i++) {
+	// 		markerGenerator(family_list[i].lat, family_list[i].lng, family_list[i].id);
+	// 		// console.log(family_list[i].id);
+	//     }
+	// };
+
+	// iterateFamilies(gon.all_options);
+
+// ----------- Keep school marker z-index at 1000 (attempts) ------------
+
+	// if ($($('.leaflet-marker-pane img')[0]).css('z-index') !== 1000) {
+	// 	$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
+	// };
+
+	// if (1 === 1) {
+	// 	$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
+	// 	// $($('.leaflet-marker-pane img')[0]).zIndexOffset(1000);
+	// }
+
+	// $('.leaflet-control-zoom-out').on('click', function(e) {
+	// 	e.preventDefault();
+	// 	console.log("hi");
+	// 	$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
+	// });
+
+	// $('.leaflet-control-zoom-in').on('click', function(e) {
+	// 	e.preventDefault();
+	// 	console.log("bye");
+	// 	$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
+	// });
+
+// ----------- GeoJSON home and school markers -----------
+
+		// var geoJsonSchoolMarker = {
+		//   "type": "Feature",
+		//   "geometry": {
+		//     "coordinates": [
+		//     	parseFloat(gon.school_coords[0]),
+		// 	    parseFloat(gon.school_coords[1])
+		// 	],
+		//     "type": "Point"
+		//   },
+		//   "properties": {
+	 //        title: 'School',
+	 //        'always-show': true,
+	 //        'marker-size': 'large',
+	 //        'marker-color': '#ff0000',
+	 //        'marker-symbol': 'school'
+		//   }
+		// };
+		// var geoJsonHomeMarker = {
+		//   "type": "Feature",
+		//   "geometry": {
+		//     "coordinates": [
+		//     	gon.current_user.lng,
+		// 	    gon.current_user.lat
+		// 	],
+		//     "type": "Point"
+		//   },
+		//   "properties": {
+	 //        title: 'Home',
+	 //        'always-show': true,
+	 //        'marker-size': 'large',
+	 //        'marker-color': '#339900',
+	 //        'marker-symbol': 'building'
+		//   }
+		// };
+		// geojson.push(geoJsonSchoolMarker);
+		// geojson.push(geoJsonHomeMarker);
