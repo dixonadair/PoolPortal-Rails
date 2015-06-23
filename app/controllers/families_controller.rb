@@ -39,7 +39,7 @@ class FamiliesController < ApplicationController
 
 		# response = { nothing: "", password: params[:password], email: params[:email], last_name: params[:last_name], address: params[:address], phone: params[:phone] }
 
-	@family.update(password: params[:family][:password], email: params[:family][:email], last_name: params[:family][:last_name], address: params[:family][:address], phone: params[:family][:phone])
+	@family.update(password: params[:family][:password], email: params[:family][:email], last_name: params[:family][:last_name], address: params[:family][:address], phone: params[:family][:phone], optout: params[:family][:optout], info: params[:family][:info], mpg: params[:family][:mpg])
 
 	the_params = params[:family]
 	response = { the_params: the_params }

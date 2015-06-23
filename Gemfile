@@ -7,7 +7,7 @@ gem 'faker'
 gem 'awesome_print'
 gem 'httparty'
 gem 'json'
-gem 'foreigner'
+# gem 'foreigner'
 gem 'gon' # allows you to pass variables from controller directly to js file
 gem 'paperclip', '~> 3.5.3'
 gem 'nokogiri'

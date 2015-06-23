@@ -283,83 +283,83 @@ $(function(){
 			console.log("success");
 			// console.log(response);
 			$('.right-side-div').html(response.pool_partial);
-			// Uncomment the below when using pool_option_2.html.erb
-			// var chart_time = c3.generate({
-			// 	bindto: '.chart_time',
-			// 	axis: {
-			// 	  y: {
-			// 	    label: 'Hours'
-			// 	  }
-			// 	},
-			//     data: {
-			//         // iris data from R
-			//         columns: [
-			//             ['Alone', response.hs_time],
-			//             ['Carpool', response.hps_time],
-			//         ],
-			//         type : 'bar',
-			//         onclick: function (d, i) { console.log("onclick", d, i); },
-			//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-			//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-			//     }
-			// });
-			// var chart_miles = c3.generate({
-			// 	bindto: '.chart_miles',
-			// 	axis: {
-			// 	  y: {
-			// 	    label: 'Miles'
-			// 	  }
-			// 	},
-			//     data: {
-			//         // iris data from R
-			//         columns: [
-			//             ['Alone', response.hs_distance],
-			//             ['Carpool', response.hps_distance],
-			//         ],
-			//         type : 'bar',
-			//         onclick: function (d, i) { console.log("onclick", d, i); },
-			//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-			//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-			//     }
-			// });
-			// var chart_emissions = c3.generate({
-			// 	bindto: '.chart_emissions',
-			// 	axis: {
-			// 	  y: {
-			// 	    label: 'CO2 pounds'
-			// 	  }
-			// 	},
-			//     data: {
-			//         // iris data from R
-			//         columns: [
-			//             ['Alone', response.hs_emissions],
-			//             ['Carpool', response.hps_emissions],
-			//         ],
-			//         type : 'bar',
-			//         onclick: function (d, i) { console.log("onclick", d, i); },
-			//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-			//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-			//     }
-			// });
-			// var chart_gas = c3.generate({
-			// 	bindto: '.chart_gas',
-			// 	axis: {
-			// 	  y: {
-			// 	    label: 'Gallons of gas'
-			// 	  }
-			// 	},
-			//     data: {
-			//         // iris data from R
-			//         columns: [
-			//             ['Alone', response.hs_gas],
-			//             ['Carpool', response.hps_gas],
-			//         ],
-			//         type : 'bar',
-			//         onclick: function (d, i) { console.log("onclick", d, i); },
-			//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-			//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-			//     }
-			// });
+			// Uncomment and unindent the below when using pool_option_2.html.erb
+				// var chart_time = c3.generate({
+				// 	bindto: '.chart_time',
+				// 	axis: {
+				// 	  y: {
+				// 	    label: 'Hours'
+				// 	  }
+				// 	},
+				//     data: {
+				//         // iris data from R
+				//         columns: [
+				//             ['Alone', response.hs_time],
+				//             ['Carpool', response.hps_time],
+				//         ],
+				//         type : 'bar',
+				//         onclick: function (d, i) { console.log("onclick", d, i); },
+				//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+				//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+				//     }
+				// });
+				// var chart_miles = c3.generate({
+				// 	bindto: '.chart_miles',
+				// 	axis: {
+				// 	  y: {
+				// 	    label: 'Miles'
+				// 	  }
+				// 	},
+				//     data: {
+				//         // iris data from R
+				//         columns: [
+				//             ['Alone', response.hs_distance],
+				//             ['Carpool', response.hps_distance],
+				//         ],
+				//         type : 'bar',
+				//         onclick: function (d, i) { console.log("onclick", d, i); },
+				//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+				//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+				//     }
+				// });
+				// var chart_emissions = c3.generate({
+				// 	bindto: '.chart_emissions',
+				// 	axis: {
+				// 	  y: {
+				// 	    label: 'CO2 pounds'
+				// 	  }
+				// 	},
+				//     data: {
+				//         // iris data from R
+				//         columns: [
+				//             ['Alone', response.hs_emissions],
+				//             ['Carpool', response.hps_emissions],
+				//         ],
+				//         type : 'bar',
+				//         onclick: function (d, i) { console.log("onclick", d, i); },
+				//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+				//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+				//     }
+				// });
+				// var chart_gas = c3.generate({
+				// 	bindto: '.chart_gas',
+				// 	axis: {
+				// 	  y: {
+				// 	    label: 'Gallons of gas'
+				// 	  }
+				// 	},
+				//     data: {
+				//         // iris data from R
+				//         columns: [
+				//             ['Alone', response.hs_gas],
+				//             ['Carpool', response.hps_gas],
+				//         ],
+				//         type : 'bar',
+				//         onclick: function (d, i) { console.log("onclick", d, i); },
+				//         onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+				//         onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+				//     }
+				// });
 		});
 		ajaxRequest.fail(function() {
 			console.log("error");
