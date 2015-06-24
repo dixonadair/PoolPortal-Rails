@@ -4,6 +4,8 @@ $(function(){
 
 // ----------------------------------------------------------------------
 
+	console.log("this is a test");
+	
 	// Declare mapbox access token and set up map
 	L.mapbox.accessToken = 'pk.eyJ1IjoiZGl4b25hZGFpciIsImEiOiJhR1dMRERVIn0.fpbNVrP6tCB3jOKzm41vlA';
 
