@@ -78,7 +78,7 @@ $(function(){
 	});
 	home_marker.addTo(current_location_map);
 
-	// Set school marker z-index at 1000
+	// Set school and home markers' z-index at 1000
 	$($('.leaflet-marker-pane img')[0]).css('z-index', 1000);
 	$($('.leaflet-marker-pane img')[1]).css('z-index', 1000);
 
