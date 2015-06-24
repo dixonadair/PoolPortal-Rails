@@ -9,9 +9,10 @@
 			<p>The <%= pool_family.last_name %> Family</p>
 			<p><%= pool_family.address.splitAddress[0] %><%= link_to " (Get Directions)", "https://www.google.com/maps/dir/#{Family.find(session[:user_id]).address}/#{pool_family.address}", :target => "_blank" %></p>
 			<p><%= pool_family.address.splitAddress[1] %></p>
+			<p><%= pool_family.info %></p>
 		</div>
 	</div>
-	<div class="explanation">Weekly savings by carpooling with the <%= pool_family.last_name %> family:<%= pool_family.info %></div>
+	<div class="explanation">Weekly savings by carpooling with the <%= pool_family.last_name %> family:</div>
 	<div class="pool-info">
 		<div class="first-row">
 			<div class="chart_time">
@@ -56,7 +57,6 @@
 		</div>
 	</div>
 	<div class="send-message">
-		<p>Get in touch with them!</p>
 		<p>Send them an email: <%= mail_to pool_family.email, pool_family.email, subject: "Carpool Request", body: "Hello " + pool_family.last_name + " family! \n \n After visiting the school's Pool-Portal website today, we noticed that you live pretty close by and were wondering if you might want to carpool with our family. We have a [SON/DAUGHTER], [NAME] in [__TH] grade. \n \n Our number is " + pool_family.phone + ". Give us a call and let's see if we might be able to work something out! \n \n Best wishes, \n \n the " + Family.find(session[:user_id]).last_name + "'s"%></p>
 		<p>Call them: <%= pool_family.phone %></p>
 	</div>
