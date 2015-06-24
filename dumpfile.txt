@@ -42,6 +42,8 @@ heroku addons:destroy heroku-postgresql:hobby-dev --app gazing-newly-2024
 
 heroku config:add DATABASE_URL='postgres://dixon91:deploy41dix@dixondbinstance.cr4epprzj9ga.us-west-2.rds.amazonaws.com:5432/awspoolportaldb?sslca=config/ca/rds-ca-2015.pem&sslmode=require&encrypt=true'
 
+heroku pg:backups restore 'postgres://dixon91:deploy41dix@dixondbinstance.cr4epprzj9ga.us-west-2.rds.amazonaws.com:5432/awspoolportaldb?sslca=config/ca/rds-ca-2015.pem&sslmode=require&encrypt=true' thawing-mountain-9975::brown
+
 -----------------------------------
 
 -----------------------------------
