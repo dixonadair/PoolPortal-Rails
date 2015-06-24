@@ -82,7 +82,7 @@ production:
   <<: *default
   
   # database: d3tcsthn8nvofh
-  host: options.cuzwdaednosd.us-west-2.rds.amazonaws.com
+  host: dixondbinstance.cr4epprzj9ga.us-west-2.rds.amazonaws.com
   port: 5432
   database: PoolPortal_Rails_production
   # url: 'postgres://dixon91:deploy41dix@dixondbinstance.cr4epprzj9ga.us-west-2.rds.amazonaws.com:5432/awspoolportaldb?sslca=config/ca/rds-ca-2015.pem&sslmode=require&encrypt=true'
