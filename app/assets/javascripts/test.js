@@ -1,5 +1,7 @@
 // This is the main js file for this app.
 
+console.log("this is something");
+
 $(function(){
 
 // ----------------------------------------------------------------------
