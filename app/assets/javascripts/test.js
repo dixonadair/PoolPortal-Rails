@@ -103,7 +103,7 @@ $(function(){
 	var popupDescription = "";
 	var geoJSONMarkerGenerator = function(lat, lng, family_id, family_last_name) {
 		var marker;
-		popupDescription = "<p>"+ family_last_name +" Family<p><div class='pool_option'><a href='http://localhost:9393/main/"+ family_id +"'>Get Carpool Information</a></div>"
+		popupDescription = "<p>"+ family_last_name +" Family<p><div class='pool_option'><a href='http://localhost:3000/main/"+ family_id +"'>Get Carpool Information</a></div>"
 
 		marker = {
 		  "type": "Feature",
@@ -270,9 +270,9 @@ $(function(){
 
 	// ----- Render partial on right-hand side upon click "more info" -----
 
-	// $('.leaflet-popup-pane').on('click', '.pool_option a', function(e){
-	// 	e.preventDefault();
-
+	$('.leaflet-popup-pane').on('click', '.pool_option a', function(e){
+		e.preventDefault();
+	});
 	// 	var my_url = $(e.target).attr('href');
 	// 	var pool_id = my_url.split('main/')[1]
 	// 	console.log(pool_id);
