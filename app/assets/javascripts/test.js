@@ -270,7 +270,7 @@ $(function(){
 
 	$('.leaflet-popup-pane').on('click', '.pool_option a', function(e){
 		e.preventDefault();
-	});
+		
 		var my_url = $(e.target).attr('href');
 		var pool_id = my_url.split('main/')[1]
 		console.log(pool_id);
