@@ -1,33 +1,6 @@
 # I created this file, it was not automatically generated.
 
 class Integer
-    # e.g. "3660" (seconds) => "1:01 hours"
-    # THE BELOW METHOD DOES NOT WORK!!!!!
-    # def pretty_duration_1
-    #     parse_string = ""
-    #     min_or_hr = ""
-    #     negative = false
-    #     if self < 0
-    #         negative = true
-    #     end
-    #     if self.abs < 3600
-    #         parse_string = '%M:00'
-    #         min_or_hr = " minutes"
-    #     else
-    #         parse_string = '%H:%M'
-    #         min_or_hr = " hours"
-    #     end
-
-    #     parsed = Time.at(self.abs).utc.strftime(parse_string)
-    #     result = ""
-    #     if negative == true
-    #         result = "- " + parsed + min_or_hr
-    #     else
-    #         result = parsed + min_or_hr
-    #     end
-    #     result
-    # end
-
     def pretty_duration
         negative = false
         if self < 0
