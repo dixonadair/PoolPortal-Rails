@@ -4,20 +4,33 @@ Rails.application.routes.draw do
 
   get 'main/index' => 'main#index'
 
-  get 'main/:id' => 'main#one_pool'
+  get '/index' => 'main#welcome'
 
-  get '/index' =>'main#welcome'
+  # The below route has to go here at the bottom of all the main routes!
+  # If you defined a route, say 'main/bla', after 'main/:id', it would always think that "bla" is the ":id" in 'main/:id' and get screwed up.
+  get 'main/:id' => 'main#one_pool'
 
   # ------------------------
 
-  get    'help'    => 'static_pages#help'
-  get    'about'   => 'static_pages#about'
-  get    'contact' => 'static_pages#contact'
-  get    'signup'  => 'users#new'
+  # get    'help'    => 'static_pages#help'
+  # get    'about'   => 'static_pages#about'
+  # get    'contact' => 'static_pages#contact'
+
+  # ------------------------
+
   get    'login'   => 'sessions#new'
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
+
+  # ------------------------
+
+  get 'families/edit1' => 'families#edit1'
+  get 'families/show1' => 'families#show1'
+  get 'signup' => 'families#new'
+
   resources :families
+
+  # ------------------------
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

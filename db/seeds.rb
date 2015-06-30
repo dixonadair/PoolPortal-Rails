@@ -95,7 +95,7 @@ require 'awesome_print'
 
 # file = File.join(Rails.root, 'lib', 'assets', 'AIS.csv')
 
-# # ---------- For use with "test2.csv" ------------
+# ---------- Initial seeding of DB ------------
 
 # CSV.foreach(file, :headers => true) do |row|
 #   fullAddress = row[3] + " " + row[4] + " " + row[5] + " " + row[6]
@@ -110,24 +110,70 @@ require 'awesome_print'
 
 # ------------- Add home-school time/distance to DB ---------------
 
-Family.each do |family|
-	home_coords = []
-	home_coords << family.lng << family.lat
-	school_coords = [-84.378611, 33.833333]
+# Family.each do |family|
+# 	home_coords = []
+# 	home_coords << family.lng << family.lat
+# 	school_coords = [-84.378611, 33.833333]
 
-	hs_url = "https://maps.googleapis.com/maps/api/directions/json?origin=#{home_coords[1]},#{home_coords[0]}&destination=#{school_coords[1]},#{school_coords[0]}&key=AIzaSyDirDB7V1F3KwSFublV4KmZPhOGnJ71BLE"
-	hs_response = HTTParty.get(hs_url).to_json
-	hs_response = JSON.parse(hs_response)
+# 	hs_url = "https://maps.googleapis.com/maps/api/directions/json?origin=#{home_coords[1]},#{home_coords[0]}&destination=#{school_coords[1]},#{school_coords[0]}&key=AIzaSyDirDB7V1F3KwSFublV4KmZPhOGnJ71BLE"
+# 	hs_response = HTTParty.get(hs_url).to_json
+# 	hs_response = JSON.parse(hs_response)
 
-	# p hs_response["routes"][0]["legs"][0]["duration"]["value"]
-	# p hs_response["routes"][0]["legs"][0]["distance"]["value"].meters_to_miles
+# 	# p hs_response["routes"][0]["legs"][0]["duration"]["value"]
+# 	# p hs_response["routes"][0]["legs"][0]["distance"]["value"].meters_to_miles
 
-	family.hs_time = hs_response["routes"][0]["legs"][0]["duration"]["value"]
-	family.hs_distance = hs_response["routes"][0]["legs"][0]["distance"]["value"].meters_to_miles
-	family.save
+# 	family.hs_time = hs_response["routes"][0]["legs"][0]["duration"]["value"]
+# 	family.hs_distance = hs_response["routes"][0]["legs"][0]["distance"]["value"].meters_to_miles
+# 	family.save
 
-	p "#{family.last_name} family complete!"
+# 	p "#{family.last_name} family complete!"
+# end
+
+# ------------- Add opt-out, info, and mpg to table ---------------
+
+# Family.all.each do |family|
+# 	family.optout = false
+# 	family.info = "OTHER INFO HERE (Briefly specify general carpooling/scheduling preferences you may have)"
+# 	family.mpg = 25
+# 	family.save
+# 	p "#{family.last_name} family complete"
+# end
+
+# # "e.g. 'My son is in [GRADE X] so he has to be at school by [TIME], and we usually pick him up at [TIME]. Ideally, he'd prefer carpooling with someone around his age.')"
+
+# --------------- Make all family usernames unique ----------------
+
+@family = Family.all
+@family = @family.sort
+len = @family.length
+
+counter = 2
+for i in 1..len-1
+	if @family[i].last_name == @family[i-1].last_name
+		p "The #{@family[i].last_name} family name is duplicated!"
+		# @family[i].username = @family[i].last_name.downcase + "#{counter}"
+		# p Family.find(i+1)
+		@temp = Family.find(i+1)
+		@temp.username = @temp.last_name.downcase + "#{counter}"
+		@temp.save
+		counter += 1
+	else
+		@temp = Family.find(i+1)
+		@temp.username = @temp.last_name.downcase
+		@temp.save
+		counter = 2
+	end
 end
+
+# @temp = Family.find(1)
+# @temp.username = "adair"
+# @temp.save
+
+# p Family.find(1)
+
+# @family.each do |family|
+# 	p family.last_name
+# end
 
 # -----------------------------------------------------------------
 

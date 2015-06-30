@@ -9,6 +9,11 @@ http://api.tiles.mapbox.com/v4/geocode/mapbox.places/1600+pennsylvania+ave+nw.js
 <%= #image_tag("#{pool_family.students[0].image_filename}", size: "110x110") %>
 -----------------------------------
 
+((hs_time*10) - (hps_time*5)).pretty_duration
+(hs_distance*10).round(2) - (hps_distance*5).round(2)
+(((hs_distance*10)/25)*19.64).round(2) - (((hps_distance*5)/25)*19.64).round(2)
+(((hs_distance*10)/25)*2.70).round(2) - (((hps_distance*5)/25)*2.70).round(2)
+
 -----------------------------------
 
 -----------------------------------
@@ -32,6 +37,12 @@ http://api.tiles.mapbox.com/v4/geocode/mapbox.places/1600+pennsylvania+ave+nw.js
 -----------------------------------
 
 -----------------------------------
+
+heroku addons:destroy heroku-postgresql:hobby-dev --app gazing-newly-2024
+
+heroku config:add DATABASE_URL='postgres://dixon91:deploy41dix@dixondbinstance.cr4epprzj9ga.us-west-2.rds.amazonaws.com:5432/awspoolportaldb?sslca=config/ca/rds-ca-2015.pem&sslmode=require&encrypt=true'
+
+heroku pg:backups restore 'postgres://dixon91:deploy41dix@dixondbinstance.cr4epprzj9ga.us-west-2.rds.amazonaws.com:5432/awspoolportaldb?sslca=config/ca/rds-ca-2015.pem&sslmode=require&encrypt=true' thawing-mountain-9975::brown
 
 -----------------------------------
 

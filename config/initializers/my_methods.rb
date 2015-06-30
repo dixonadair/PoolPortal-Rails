@@ -2,18 +2,22 @@
 
 class Integer
     def pretty_duration
-        parse_string = ""
-        min_or_hr = ""
-        if self < 3600
-        	parse_string = '%M:00'
-            min_or_hr = " minutes"
-        else
-    		parse_string = '%H:%M:00'
-    	    min_or_hr = " hours"
+        negative = false
+        if self < 0
+            negative = true
         end
-
-        parsed = Time.at(self).utc.strftime(parse_string)
-        result = parsed + min_or_hr
+        hours = self.abs/3600
+        minutes = (self.abs/60) % 60
+        # seconds = self.abs % 60
+        result = ""
+        if hours == 0
+            result = "#{minutes} mins" #{seconds} secs" 
+        else
+            result = "#{hours} hrs #{minutes} mins" #{seconds} secs"
+        end
+        if negative == true
+            result = "-#{result}"
+        end
         result
     end
 

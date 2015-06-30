@@ -2,17 +2,37 @@ source 'https://rubygems.org'
 
 # ---- ADDED BY ME ----
 
+# gem 'foreigner'
+
 gem 'bcrypt-ruby'
+
 gem 'faker'
+
 gem 'awesome_print'
+
 gem 'httparty'
+
 gem 'json'
-gem 'foreigner'
-gem 'gon' # allows you to pass variables from controller directly to js file
+
+# Pass variables from controller directly to js file
+gem 'gon'
+
 gem 'paperclip', '~> 3.5.3'
+
+# Scrape websites
+gem 'nokogiri'
+
+# Set cronjobs
+gem 'whenever'
+
+# Kind of a mgmt system for cronjobs, works together w/'whenever' gem
+# gem 'capistrano', '~> 3.4.0'
+
+gem 'dotenv-rails'
 
 group :production do
 	gem 'pg'
+	gem 'rails_12factor'
 end
 
 # ---- ORIGINALLY INCLUDED ----

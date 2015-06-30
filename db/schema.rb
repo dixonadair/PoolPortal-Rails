@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150613020027) do
+ActiveRecord::Schema.define(version: 20150623010743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,9 @@ ActiveRecord::Schema.define(version: 20150613020027) do
     t.datetime "updated_at",  null: false
     t.float    "hs_time"
     t.float    "hs_distance"
+    t.boolean  "optout"
+    t.string   "info"
+    t.float    "mpg"
   end
 
   create_table "students", force: :cascade do |t|
@@ -40,3 +43,5 @@ ActiveRecord::Schema.define(version: 20150613020027) do
     t.string   "image_filename"
   end
 
+  add_foreign_key "students", "families", name: "students_family_id_fk"
+end
