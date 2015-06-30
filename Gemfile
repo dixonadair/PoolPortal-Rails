@@ -14,13 +14,19 @@ gem 'httparty'
 
 gem 'json'
 
-gem 'gon' # allows you to pass variables from controller directly to js file
+# Pass variables from controller directly to js file
+gem 'gon'
 
 gem 'paperclip', '~> 3.5.3'
 
+# Scrape websites
 gem 'nokogiri'
 
+# Set cronjobs
 gem 'whenever'
+
+# Kind of a mgmt system for cronjobs, works together w/'whenever' gem
+gem 'capistrano', '~> 3.4.0'
 
 gem 'dotenv-rails'
 
