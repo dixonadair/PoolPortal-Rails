@@ -59,6 +59,6 @@
 set :environment, "production"
 # set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
 
-every :tuesday, :at => '1:10pm' do
+every :tuesday, :at => '1:18pm' do
 	rake 'test_task'
 end
