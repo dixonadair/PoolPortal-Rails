@@ -2,15 +2,25 @@ source 'https://rubygems.org'
 
 # ---- ADDED BY ME ----
 
-gem 'bcrypt-ruby'
-gem 'faker'
-gem 'awesome_print'
-gem 'httparty'
-gem 'json'
 # gem 'foreigner'
+
+gem 'bcrypt-ruby'
+
+gem 'faker'
+
+gem 'awesome_print'
+
+gem 'httparty'
+
+gem 'json'
+
 gem 'gon' # allows you to pass variables from controller directly to js file
+
 gem 'paperclip', '~> 3.5.3'
+
 gem 'nokogiri'
+
+gem 'whenever'
 
 gem 'dotenv-rails'
 
