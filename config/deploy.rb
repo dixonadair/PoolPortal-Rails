@@ -1,5 +1,5 @@
 
-# =begin
+=begin
 
 # config valid only for current version of Capistrano
 lock '3.4.0' #UNCOMMENT
@@ -73,4 +73,4 @@ namespace :deploy do
   end
 end
 
-# =end
+=end
