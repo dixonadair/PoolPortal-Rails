@@ -9,6 +9,6 @@
 desc 'change phone num for first family'
 task test_task: :environment do 
 	@test_fam = Family.find(1)
-	@test_fam.phone = "123-456-8888"
+	@test_fam.phone = "123-456-9999"
 	@test_fam.save
 end

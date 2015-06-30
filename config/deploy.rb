@@ -1,8 +1,8 @@
 # config valid only for current version of Capistrano
-# lock '3.4.0' #UNCOMMENT
+lock '3.4.0' #UNCOMMENT
 
-# set :application, 'PoolPortal_Rails' #UNCOMMENT
-# set :repo_url, 'https://github.com/dixonadair/PoolPortal-Rails' #UNCOMMENT
+set :application, 'PoolPortal_Rails' #UNCOMMENT
+set :repo_url, 'https://github.com/dixonadair/PoolPortal-Rails' #UNCOMMENT
 # set :repo_url, 'git@example.com:me/my_repo.git'
 
 # Default branch is :master
@@ -54,11 +54,11 @@
 
 #UNCOMMENT BELOW
 
-# after "deploy:symlink", "deploy:update_crontab"
+after "deploy:symlink", "deploy:update_crontab"
 
-# namespace :deploy do
-#   desc "Update the crontab file"
-#   task :update_crontab, :roles => :db do
-#     run "cd #{release_path} && whenever --update-crontab #{application}"
-#   end
-# end
+namespace :deploy do
+  desc "Update the crontab file"
+  task :update_crontab, :roles => :db do
+    run "cd #{release_path} && whenever --update-crontab #{application}"
+  end
+end
