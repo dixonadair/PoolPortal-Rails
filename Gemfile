@@ -26,7 +26,7 @@ gem 'nokogiri'
 gem 'whenever'
 
 # Kind of a mgmt system for cronjobs, works together w/'whenever' gem
-# gem 'capistrano', '~> 3.4.0'
+gem 'capistrano', '~> 3.4.0'
 
 gem 'dotenv-rails'
 
