@@ -60,9 +60,9 @@ set :repo_url, 'https://github.com/dixonadair/PoolPortal-Rails' #UNCOMMENT
 
 #UNCOMMENT BELOW
 
-role :app, "your app-server here"
-role :web, "your web server here"
-role :db, "your db-server here", :primary => true
+# role :app, "your app-server here"
+# role :web, "your web server here"
+# role :db, "your db-server here", :primary => true
 
 after "deploy:symlink", "deploy:update_crontab"
 
