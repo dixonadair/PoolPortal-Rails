@@ -33,6 +33,8 @@ class MainController < ApplicationController
     pool_coords = []
     pool_coords << pool_family.lng << pool_family.lat
 
+    family_mpg = pool_family.mpg
+
     # ------------------------- Google Maps (Home-to-School) -------------------------
 
       # hs_url = "https://maps.googleapis.com/maps/api/directions/json?origin=#{home_coords[1]},#{home_coords[0]}&destination=#{school_coords[1]},#{school_coords[0]}&key=AIzaSyDirDB7V1F3KwSFublV4KmZPhOGnJ71BLE"
@@ -81,7 +83,7 @@ class MainController < ApplicationController
 
     # --------- Image + Savings version ----------
 
-    response = { pool_partial: render_to_string('main/_pool_option_3', layout: false, locals: { pool_family: pool_family, hs_gas: ((hs_distance*10)/25).round(2), hs_emissions: (((hs_distance*10)/25)*19.64).round(2), hs_dollars: (((hs_distance*10)/25)*cur_price).round(2), hs_time: hs_time*10, hs_distance: (hs_distance*10).round(2), hps_gas: ((hps_distance*5)/25).round(2), hps_emissions: (((hps_distance*5)/25)*19.64).round(2), hps_dollars: (((hps_distance*5)/25)*cur_price).round(2), hps_time: hps_time*5, hps_distance: (hps_distance*5).round(2), cur_price: cur_price }) }
+    response = { pool_partial: render_to_string('main/_pool_option_3', layout: false, locals: { pool_family: pool_family, hs_gas: ((hs_distance*10)/family_mpg).round(2), hs_emissions: (((hs_distance*10)/family_mpg)*19.64).round(2), hs_dollars: (((hs_distance*10)/family_mpg)*cur_price).round(2), hs_time: hs_time*10, hs_distance: (hs_distance*10).round(2), hps_gas: ((hps_distance*5)/family_mpg).round(2), hps_emissions: (((hps_distance*5)/family_mpg)*19.64).round(2), hps_dollars: (((hps_distance*5)/family_mpg)*cur_price).round(2), hps_time: hps_time*5, hps_distance: (hps_distance*5).round(2), cur_price: cur_price }) }
 
   	render json: response
   end

@@ -187,6 +187,44 @@ $(function(){
 
 // ----------------------------------------------------------------------
 
+	// IS POINT INSIDE POLYGON - GOOGLE MAPS API
+
+	var triangleCoords = [
+	  new google.maps.LatLng(25.774252, -80.190262),
+	  new google.maps.LatLng(18.466465, -66.118292),
+	  new google.maps.LatLng(32.321384, -64.75737)
+	];
+
+	var bermudaTriangle = new google.maps.Polygon({
+	  paths: triangleCoords
+	});
+
+	var insideOrNot = function() {
+		var searchString = $('#search_2').val();
+
+		var searchStringLat = searchString.substr(0, searchString.indexOf(","));
+		console.log(searchStringLat);
+		var searchStringLng = searchString.substr(searchString.indexOf(" ")+1, searchString.length);
+		console.log(searchStringLng);
+
+		var searchCoords = new google.maps.LatLng(searchStringLat, searchStringLng);
+		console.log(searchCoords);
+
+		if (google.maps.geometry.poly.containsLocation(searchCoords, bermudaTriangle)) {
+			console.log("yes");
+		} else {
+			console.log("no");
+		}
+	};
+
+	$('#search_2').keypress(function(e) {
+		if(e.which == 13) {
+			insideOrNot();
+		}
+	});
+
+// ----------------------------------------------------------------------
+
 	// $('.leaflet-marker-pane img').on('click', function(e) {
 	// 	e.preventDefault();
 	// 	// var fam_id = e.
